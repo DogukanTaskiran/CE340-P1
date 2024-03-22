@@ -1,24 +1,18 @@
 import helpingFunctions
 import rsa
+import desKey
 
-#print("GDC Deneme 15 ve 12")
-#helpingFunctions.euclidGCD(15,12)
+rsa.rsa_encryption("DENEME123!")
 
-#print("RSA Deneme")
-#rsa.keyGenerator(11,5) 
-# https://rsa-calculator.netlify.app/
+encryptedInput = None
+dInput = None
+nInput = None
 
+print("↓ Please write the Encrypted Message ↓")
+encryptedInput = input()
+print("↓ Please write the d ↓")
+dInput = input()
+print("↓ Please write the n ↓")
+nInput = input()
 
-public_key, private_key = rsa.keyGenerator()
-
-print(">> Enter the Message <<")
-message = input()
-ciphertext = rsa.rsa_encrypt(str(message), public_key)
-print("Ciphertext -> ", ciphertext)
-
-print("**************************")
-
-print(">> Enter the Ciphertext <<")
-ciphertext = input()
-message = rsa.rsa_decrypt(str(ciphertext), private_key)
-print("Message:", message)
+rsa.rsa_decryption(int(encryptedInput),int(dInput), int(nInput))

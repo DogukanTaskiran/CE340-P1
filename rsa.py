@@ -1,47 +1,43 @@
 import helpingFunctions
 import random
 
-def keyGenerator():
+def rsa_encryption(message):
 
+    # https://rsa-calculator.netlify.app/
+
+    # Generating 2 random prime numbers which are p and q
     q = helpingFunctions.primeGenerator()
     p = helpingFunctions.primeGenerator()
-
-    if p==q:
+    
+    if p == q:
         raise ValueError('q and p are same')
     elif helpingFunctions.isPrime(q) == False or helpingFunctions.isPrime(p) == False:
         raise ValueError('q and p must be prime')
+    
+    n, e, d = helpingFunctions.keyGenerator(p, q)
 
-    n = p * q
+    encodedMessage = helpingFunctions.encoder(message)
+    encryptedMessage = pow(encodedMessage, e, n) # (encodedMessage ^ e) % n
 
-    totientFunc = (p-1)*(q-1)
-
-    # Part E
-    e = random.randint(2,totientFunc-1) # 1 < e < totientFunc
-    while (helpingFunctions.euclidGCD(e,totientFunc)!=1):
-        e = random.randint(2,totientFunc-1)
-
-    # Part D
-    d = random.randint(0, n)  # 0 =< d =< n
-    while (e * d) % totientFunc != 1:
-        d = random.randint(0, n)
-        if d > totientFunc:
-            d = d - totientFunc
-            break
-
-
+    # Keys
     public_key = (e,n)
     private_key = (d,n)
 
-    return public_key, private_key
+    print("Public Key  (e,n)  -> ", public_key)
+    print("Private Key (d,n) -> ", private_key)
+    print("Message           -> ", message)
+    print("Encrypted Message -> ", encryptedMessage)
+    print("*********************")
 
-def rsa_encrypt(message, public_key):
-    e, n = public_key
-    ciphertext = [pow(ord(element), e, n) for element in message]  # (M^e)%n
-    return ciphertext
+    return encryptedMessage, d, n
 
-def rsa_decrypt(ciphertext, private_key):
-    d, n = private_key
-    message = [pow(ord(element), d, n) for element in ciphertext]   # (C^d)%n
+def rsa_decryption(encryptedMessage, d, n):
 
-    output = [chr(int(element)) for element in message]
-    return ''.join(output)
+    decryptedMessage = pow(int(encryptedMessage), d, n) # (encryptedMessage ^ d) % n
+    message = helpingFunctions.decoder(decryptedMessage)
+
+    print("*********************")
+    print("Decrypted Message -> ", decryptedMessage)
+    print("Message           -> ", message)
+
+    return decryptedMessage
