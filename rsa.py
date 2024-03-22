@@ -1,6 +1,15 @@
 import helpingFunctions
 import random
-def rsa(p,q):
+
+def keyGenerator():
+
+    q = helpingFunctions.primeGenerator()
+    p = helpingFunctions.primeGenerator()
+
+    if p==q:
+        raise ValueError('q and p are same')
+    elif helpingFunctions.isPrime(q) == False or helpingFunctions.isPrime(p) == False:
+        raise ValueError('q and p must be prime')
 
     n = p * q
 
@@ -12,12 +21,27 @@ def rsa(p,q):
         e = random.randint(2,totientFunc-1)
 
     # Part D
-    d = random.randint(0,n) # 0 < d < n
+    d = random.randint(0, n)  # 0 =< d =< n
+    while (e * d) % totientFunc != 1:
+        d = random.randint(0, n)
+        if d > totientFunc:
+            d = d - totientFunc
+            break
 
-    while ((e*d) % totientFunc != 1):
-        d = random.randint(0,n)
-        if (d > totientFunc):
-            d = d-totientFunc
 
-    # Debugger to see variables **************************************************************
-    print(f"p: {p}, q: {q}, n: {n}, totientFunc: {totientFunc}, e: {e}, d: {d}")
+    public_key = (e,n)
+    private_key = (d,n)
+
+    return public_key, private_key
+
+def rsa_encrypt(message, public_key):
+    e, n = public_key
+    ciphertext = [pow(ord(element), e, n) for element in message]  # (M^e)%n
+    return ciphertext
+
+def rsa_decrypt(ciphertext, private_key):
+    d, n = private_key
+    message = [pow(ord(element), d, n) for element in ciphertext]   # (C^d)%n
+
+    output = [chr(int(element)) for element in message]
+    return ''.join(output)
