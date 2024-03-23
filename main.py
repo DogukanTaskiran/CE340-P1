@@ -1,18 +1,10 @@
-import helpingFunctions
-import rsa
-import desKey
+import RSA
 
-rsa.rsa_encryption("DENEME123!")
+public_key, private_key = RSA.keyGenerator()
 
-encryptedInput = None
-dInput = None
-nInput = None
+message = "DENEME123!"
+encryptedMessage = RSA.encrypt(public_key, message)
+print("Encrypted:", encryptedMessage)
 
-print("↓ Please write the Encrypted Message ↓")
-encryptedInput = input()
-print("↓ Please write the d ↓")
-dInput = input()
-print("↓ Please write the n ↓")
-nInput = input()
-
-rsa.rsa_decryption(int(encryptedInput),int(dInput), int(nInput))
+decryptedMessage = RSA.decrypt(private_key, encryptedMessage)
+print("Decrypted:", decryptedMessage)
