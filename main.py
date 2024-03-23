@@ -1,10 +1,10 @@
 import RSA
 
-public_key, private_key = RSA.keyGenerator()
+publicKey, privateKey = RSA.keyGenerator()
 
 message = "DENEME123!"
-encryptedMessage = RSA.encrypt(public_key, message)
+encryptedMessage = RSA.encrypt(publicKey, message)
 print("Encrypted:", encryptedMessage)
 
-decryptedMessage = RSA.decrypt(private_key, encryptedMessage)
+decryptedMessage = RSA.decrypt(privateKey, encryptedMessage)
 print("Decrypted:", decryptedMessage)

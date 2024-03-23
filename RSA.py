@@ -57,13 +57,13 @@ def keyGenerator():
     return ((e, n), (d, n))
 
 # Encryption
-def encrypt(public_key, plaintext):
-    e, n = public_key
-    cipher = [pow(ord(char), e, n) for char in plaintext]
+def encrypt(publicKey, message):
+    e, n = publicKey
+    cipher = [pow(ord(char), e, n) for char in message]
     return cipher
 
 # Decryption
-def decrypt(private_key, ciphertext):
-    d, n = private_key
-    plain = [chr(pow(char, d, n)) for char in ciphertext]
-    return ''.join(plain)
+def decrypt(privateKey, ciphertext):
+    d, n = privateKey
+    message = [chr(pow(char, d, n)) for char in ciphertext]
+    return ''.join(message)
