@@ -21,7 +21,7 @@ key = SDES.keyGenerator()
 print("Generated Key:", key)
 
     # Message to encrypt
-message = "Hello, World!"
+message = "Hellorld!"
 print("Original Message:", message)
 
     # Convert message to binary

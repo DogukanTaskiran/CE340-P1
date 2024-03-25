@@ -93,16 +93,15 @@ def encrypt(message, key):
     ipMessage = initialPermutation(message)
     leftHalf, rightHalf = splitMessage(ipMessage)
 
-    # Round 1
-    fResult = feistelFunction(rightHalf, k1)
-    newRight = xor(leftHalf, fResult)
-    # Round 2
-    fResult = feistelFunction(newRight, k2)
-    newLeft = xor(rightHalf, fResult)
 
-    # Final Permutation
-    encryptedText = inversePermutation(newLeft + newRight)
-    return encryptedText
+    f_result, new_right = feistelFunction(ipMessage, k1) #burda sağı sokuyodu tüm ipyi soktum zaten kendi içinde bölüyo.
+    new_left = [int(rightHalf[i]) ^ f_result[i] for i in range(4)]
+
+    f_result, new_right = feistelFunction(new_right + new_left, k2)
+    new_left = [int(new_right[i]) ^ f_result[i] for i in range(4)]
+
+    encrypted_text = inversePermutation(new_right + new_left)
+    return encrypted_text
 
 def decrypt(ciphertext, key):
 
@@ -116,11 +115,12 @@ def decrypt(ciphertext, key):
     leftHalf, rightHalf = splitMessage(ip)
 
     # Round 1
-    fResult = feistelFunction(rightHalf, k2)
-    newRight = xor(leftHalf, fResult)
+    fResult, newRight = feistelFunction(ip, k2)#burda sağı sokuyodu tüm ipyi soktum zaten kendi içinde bölüyo.
+    newLeft = [int(leftHalf[i]) ^ fResult[i] for i in range(4)]
+
     # Round 2
-    fResult = feistelFunction(newRight, k1)
-    newLeft = xor(rightHalf, fResult)
+    fResult, newRight = feistelFunction(newRight + newLeft, k1)
+    newLeft = [int(rightHalf[i]) ^ fResult[i] for i in range(4)]
 
     # Final Permutation
     decryptedText = inversePermutation(newLeft + newRight)
@@ -152,7 +152,9 @@ def expansion(text):
 
 # List based xor
 def xor(left, right):
-    return [left[i] ^ right[i] for i in range(len(left))]
+    left_int = [int(bit) for bit in left]
+    right_int = [int(bit) for bit in right]
+    return [left_int[i] ^ right_int[i] for i in range(len(left_int))]
 
 # Integer sbox substitution
 def sboxSubstitution(text, sbox):
@@ -183,6 +185,7 @@ def feistelFunction(ip, subkey):
 
     return F,rightIp
 
+
 # Converting string to binary
 def stringToBinary(input_string):
     return ''.join(format(ord(char), '08b') for char in input_string)
@@ -190,3 +193,4 @@ def stringToBinary(input_string):
 # Converting binary to string
 def binaryToString(input_binary):
     return ''.join(chr(int(input_binary[i:i+8], 2)) for i in range(0, len(input_binary), 8))
+
