@@ -124,7 +124,8 @@ def decrypt(ciphertext, key):
 
     # Final Permutation
     decryptedText = inversePermutation(newLeft + newRight)
-    return decryptedText
+    decryptedBinaryString = ''.join(map(str, decryptedText)) #convert list to string
+    return decryptedBinaryString
 
 
 # S-Box Definitions
