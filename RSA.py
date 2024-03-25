@@ -56,13 +56,13 @@ def keyGenerator():
 
     return ((e, n), (d, n))
 
-# Encryption
+# Encryption part
 def encrypt(publicKey, message):
     e, n = publicKey
     cipher = [pow(ord(char), e, n) for char in message]
     return cipher
 
-# Decryption
+# Decryption part
 def decrypt(privateKey, ciphertext):
     d, n = privateKey
     message = [chr(pow(char, d, n)) for char in ciphertext]

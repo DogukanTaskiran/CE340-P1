@@ -94,7 +94,7 @@ def encrypt(message, key):
     leftHalf, rightHalf = splitMessage(ipMessage)
 
 
-    f_result, new_right = feistelFunction(ipMessage, k1) #burda sağı sokuyodu tüm ipyi soktum zaten kendi içinde bölüyo.
+    f_result, new_right = feistelFunction(ipMessage, k1)
     new_left = [int(rightHalf[i]) ^ f_result[i] for i in range(4)]
 
     f_result, new_right = feistelFunction(new_right + new_left, k2)
@@ -115,7 +115,7 @@ def decrypt(ciphertext, key):
     leftHalf, rightHalf = splitMessage(ip)
 
     # Round 1
-    fResult, newRight = feistelFunction(ip, k2)#burda sağı sokuyodu tüm ipyi soktum zaten kendi içinde bölüyo.
+    fResult, newRight = feistelFunction(ip, k2)
     newLeft = [int(leftHalf[i]) ^ fResult[i] for i in range(4)]
 
     # Round 2
@@ -194,4 +194,3 @@ def stringToBinary(input_string):
 # Converting binary to string
 def binaryToString(input_binary):
     return ''.join(chr(int(input_binary[i:i+8], 2)) for i in range(0, len(input_binary), 8))
-
