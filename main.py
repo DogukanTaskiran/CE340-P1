@@ -25,20 +25,21 @@ for i in range (0,10):
 
     # Requirement 2 RSA Encryption and Decryption
     message = "MESSAGE123#message"
-
+    print("Original Message:", message)
+    
     encryptionStartTime = time.perf_counter() # Start time
     encryptedMessage = RSA.encrypt(publicKey, message)
     encryptionEndTime = time.perf_counter() # End Time
     encryptionTotalTime = encryptionEndTime - encryptionStartTime # Calculating total encryption time
     RSATotalTime = RSATotalTime + encryptionTotalTime # Calculating total RSA time
-    print("Encrypted:", encryptedMessage)
+    print("Encrypted Message:", encryptedMessage)
 
     decryptionStartTime = time.perf_counter() # Start time
     decryptedMessage = RSA.decrypt(privateKey, encryptedMessage)
     decryptionEndTime = time.perf_counter() # End time
     decryptionTotalTime = decryptionEndTime- decryptionStartTime # Calculating total decryption time
     RSATotalTime = RSATotalTime + decryptionTotalTime # Calculating total RSA time
-    print("Decrypted:", decryptedMessage)
+    print("Decrypted Message:", decryptedMessage)
 
     print()
 
@@ -57,7 +58,6 @@ DESTotalTime = 0
 DESKeyTotalTime = 0
 DESencryptionTotalTime = 0
 DESdecryptionTotalTime = 0
-print()
 
 # Requirement 4.c and 4.d
 for i in range (0,10):
